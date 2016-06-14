@@ -1,5 +1,6 @@
 package sample;
 
+import Syntatic.SyntaticAnalisis;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
@@ -9,6 +10,7 @@ import javafx.stage.Window;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -20,10 +22,13 @@ public class Controller implements Initializable {
     private BufferedReader br;
     private String line;
     @FXML private TextArea textArea;
+    private ArrayList <Token> tokensArray;
+    private SyntaticAnalisis analisis;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String filePath = null;
+       tokensArray= new ArrayList <Token>();
 
 
         filePath = "C:/Users/bexan/Desktop/UI's creator/src/sample//lexer.flex";
@@ -68,6 +73,7 @@ public class Controller implements Initializable {
 
 
     @FXML private void readLexerFile(){
+
         File file = new File("core.txt");
         PrintWriter writer;
         try {
@@ -94,6 +100,7 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        tokensArray.add(token);
         while (token!=null){
             switch (token){
                 case ERROR:
@@ -111,10 +118,12 @@ public class Controller implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            tokensArray.add(token);
 
         }
         result = result + "FIN";
-
+        analisis = new SyntaticAnalisis(tokensArray);
+        analisis.ui();
         textArea.setEditable(false);
         textArea.setText("");
         textArea.appendText(result);
