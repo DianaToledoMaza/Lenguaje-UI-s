@@ -18,59 +18,89 @@ public class SyntaticAnalisis {
 
     }
 
-    //<UI's> -> app <word>
+    //<UI's> -> app : <word>
     public void ui(){
         if(tokensA.get(contArray)== Token.RESERVADA_APP){
             contArray++;
-            word();
-        }else{
-            System.out.println("Se esperaba la palabra reservada app");
-            System.exit(0);
+            if (tokensA.get(contArray) == Token.OPENKEY){
+                contArray++;
+                inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
         }
+        //VACIO
 
     }
 
-    //<word> -> : <reservada> <propiedades> | : texto <word>| E
-    public void word(){
-        if(tokensA.get(contArray) == Token.OPENKEY){
+    // <inicial> -> section <propiedad> : <rest_inicial> | ..... | E
+    private void inicial() {
+        if(tokensA.get(contArray)== Token.RESERVADA_SECTION){
             contArray++;
-            reservada();
-            propiedades();
-        }else if (tokensA.get(contArray) == Token.TEXTO){
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
+        }else if(tokensA.get(contArray)== Token.RESERVADA_IMG){
             contArray++;
-            word();
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
+        }else if(tokensA.get(contArray)== Token.RESERVADA_TXT){
+            contArray++;
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
+        }else if(tokensA.get(contArray)== Token.RESERVADA_INPUT){
+            contArray++;
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
+        }else if(tokensA.get(contArray)== Token.RESERVADA_BUTTON){
+            contArray++;
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
+        }else if(tokensA.get(contArray)== Token.RESERVADA_RECTANGLE){
+            contArray++;
+            propiedad();
+            if(tokensA.get(contArray)== Token.OPENKEY){
+                contArray++;
+                rest_inicial();
+            }else {
+                System.out.println("Se esperaba un ':'");
+            }
         }
         //VACIO
     }
 
-    //<reservada> -> img|txt|input|section|...
-    private void reservada() {
-        if (tokensA.get(contArray) == Token.RESERVADA_IMG){
-            contArray++;
-        }else if (tokensA.get(contArray)== Token.RESERVADA_TXT){
-            contArray++;
-        }else if (tokensA.get(contArray)== Token.RESERVADA_SECTION){
-            contArray++;
-        }else if (tokensA.get(contArray)== Token.RESERVADA_INPUT){
-            contArray++;
-        }else if (tokensA.get(contArray)== Token.RESERVADA_BUTTON){
-            contArray++;
-        }else if (tokensA.get(contArray)== Token.RESERVADA_RECTANGLE){
-            contArray++;
-        }else{
-            System.out.println("Se esperaba palabra reservada");
-            System.exit(0);
-        }
-    }
-
-    //<propiedades> -> (<prop> = '<atributo>' <rest_prop>) <cont> | E
-    private void propiedades() {
-        if (tokensA.get(contArray) == Token.OPEN_PROPERTY){
+    //<propiedad> -> ( <prop> = ' <atributo> ' <rest_prop> ) | E
+    private void propiedad() {
+        if (tokensA.get(contArray)== Token.OPEN_PROPERTY){
             contArray++;
             prop();
             if (tokensA.get(contArray)== Token.ASSIGN){
                 contArray++;
-                if (tokensA.get(contArray) == Token.COMILLA){
+                if (tokensA.get(contArray)== Token.COMILLA){
                     contArray++;
                     atributo();
                     if (tokensA.get(contArray)== Token.COMILLA){
@@ -78,28 +108,23 @@ public class SyntaticAnalisis {
                         rest_prop();
                         if (tokensA.get(contArray)== Token.CLOSE_PROPERTY){
                             contArray++;
-                            cont();
-                        }else{
-                            System.out.println("Se esperaba un )");
-                            System.exit(0);
+                        }else {
+                            System.out.println("Se esperaba un ')' ");
                         }
-                    }else{
+                    }else {
                         System.out.println("Se esperaba un ' ");
-                        System.exit(0);
                     }
-                }else{
+                }else {
                     System.out.println("Se esperaba un ' ");
-                    System.exit(0);
                 }
-            }else{
-                System.out.println("Se esperaba un =");
-                System.exit(0);
+            }else {
+                System.out.println("Se esperaba un '='");
             }
         }
         //VACIO
     }
 
-    //<prop> -> widht | height | ...
+    //prop ->  widht | height | ...
     private void prop() {
         if (tokensA.get(contArray)== Token.RESERVADA_WIDTH){
             contArray++;
@@ -123,11 +148,10 @@ public class SyntaticAnalisis {
             contArray++;
         }else{
             System.out.println("Se esperaba una Propiedad");
-            System.exit(0);
         }
     }
 
-    //<atributo> -> int | float | texto
+    // atributo -> int|float|texto
     private void atributo() {
         if (tokensA.get(contArray)== Token.VALOR_ENTERO){
             contArray++;
@@ -137,23 +161,10 @@ public class SyntaticAnalisis {
             contArray++;
         }else{
             System.out.println("Se esperaba un Atributo (valor) ");
-            System.exit(0);
         }
     }
 
-   // <cont> -> <word> | : texto | E
-    private void cont() {
-        word();
-        if (tokensA.get(contArray)== Token.OPENKEY){
-            contArray++;
-            if (tokensA.get(contArray) == Token.TEXTO){
-                contArray++;
-            }
-        }
-        //VACIO
-    }
-
-    // <rest_prop> -> ; <prop> = '<atributo>' <rest_prop> | E
+    // rest_prop -> ; <prop> = ' <atributo> ' <rest_prop>  | E
     private void rest_prop() {
         if (tokensA.get(contArray)== Token.COMA){
             contArray++;
@@ -166,13 +177,35 @@ public class SyntaticAnalisis {
                     if (tokensA.get(contArray)== Token.COMILLA){
                         contArray++;
                         rest_prop();
+                    }else {
+                        System.out.println("Se esperaba un ' ");
                     }
+                }else {
+                    System.out.println("Se esperaba un ' ");
                 }
+            }else {
+                System.out.println("Se esperaba un '=' ");
             }
         }
         //VACIO
     }
 
+    // <rest_inicial> ->  texto <inicial> | int <inicial> | flotante <incial> | inicial | E
+    private void rest_inicial() {
+        inicial();
+        if (tokensA.get(contArray)== Token.TEXTO){
+            contArray++;
+            inicial();
+        }else if (tokensA.get(contArray)== Token.VALOR_ENTERO){
+            contArray++;
+            inicial();
+        }else if (tokensA.get(contArray)== Token.VALOR_FLOTANTE){
+            contArray++;
+            inicial();
+        }
+        //VACIO
+
+    }
 
 
 

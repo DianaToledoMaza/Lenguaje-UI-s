@@ -30,8 +30,8 @@ public class Controller implements Initializable {
         String filePath = null;
        tokensArray= new ArrayList <Token>();
 
-
-        filePath = "C:/Users/bexan/Desktop/UI's creator/src/sample//lexer.flex";
+        filePath = "D:/Mis documentos/GitHub/Lenguaje-UI-s/UI's creator/src/sample//lexer.flex";
+        //filePath = "C:/Users/bexan/Desktop/UI's creator/src/sample//lexer.flex";
 
         lexerGenerater(filePath);
     }

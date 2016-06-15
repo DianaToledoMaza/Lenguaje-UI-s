@@ -1,3 +1,4 @@
 app:
-	section(fill='rojo';id='hsd'):
-		text: hola
+	img(file='asd';width='20'):
+		rectangle(fill = 'red'):
+			txt: img
