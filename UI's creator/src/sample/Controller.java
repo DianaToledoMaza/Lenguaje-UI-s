@@ -1,5 +1,6 @@
 package sample;
 
+import Semantic.SemanticAnalisis;
 import Syntatic.SyntaticAnalisis;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.stage.Window;
 
 import java.io.*;
 import java.net.URL;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -24,6 +26,7 @@ public class Controller implements Initializable {
     @FXML private TextArea textArea;
     private ArrayList <Token> tokensArray;
     private SyntaticAnalisis analisis;
+    private SemanticAnalisis semanticAnalisis;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -122,11 +125,20 @@ public class Controller implements Initializable {
 
         }
         result = result + "FIN";
-        analisis = new SyntaticAnalisis(tokensArray);
-        analisis.ui();
         textArea.setEditable(false);
         textArea.setText("");
         textArea.appendText(result);
+        analisis = new SyntaticAnalisis(tokensArray);
+        analisis.ui();
+        semanticAnalisis = new SemanticAnalisis(tokensArray);
+        String resultA = null;
+        try {
+            resultA = semanticAnalisis.analizar();
+            textArea.appendText("\n" + resultA);
+        } catch (ExportException e) {
+            textArea.appendText("\n Errores semanticos:::::" + "\n" + e.getMessage());
+        }
+
     }
 
 }

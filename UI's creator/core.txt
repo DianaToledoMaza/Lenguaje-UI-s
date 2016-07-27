@@ -1,4 +1,11 @@
 app:
-	img(file='asd';width='20'):
-		rectangle(fill = 'red'):
-			txt: img
+    section (width = '54';height = '35'):
+        txt (font = '24'):
+            hola
+        >
+        hola
+        txt (font = 'comicsan'):
+            hola
+        >
+    >
+>

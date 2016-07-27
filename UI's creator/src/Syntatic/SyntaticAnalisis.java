@@ -18,76 +18,143 @@ public class SyntaticAnalisis {
 
     }
 
-    //<UI's> -> app : <word>
+    //<UI's> -> app : ETIQUETAS EVERY > | app : EVERY ETIQUETAS > | E
     public void ui(){
         if(tokensA.get(contArray)== Token.RESERVADA_APP){
             contArray++;
             if (tokensA.get(contArray) == Token.OPENKEY){
                 contArray++;
-                inicial();
+                etiquetas();
+                atributo();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    System.out.println("Sintaxis correcta");
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }
         //VACIO
-
     }
 
-    // <inicial> -> section <propiedad> : <rest_inicial> | ..... | E
-    private void inicial() {
+    // <etiquetas> -> section PROPIEDAD : EVERY ETIQUETAS > EVERY ETIQUETAS| E
+    private void etiquetas() {
         if(tokensA.get(contArray)== Token.RESERVADA_SECTION){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }else if(tokensA.get(contArray)== Token.RESERVADA_IMG){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }else if(tokensA.get(contArray)== Token.RESERVADA_TXT){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }else if(tokensA.get(contArray)== Token.RESERVADA_INPUT){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }else if(tokensA.get(contArray)== Token.RESERVADA_BUTTON){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }else if(tokensA.get(contArray)== Token.RESERVADA_RECTANGLE){
             contArray++;
             propiedad();
             if(tokensA.get(contArray)== Token.OPENKEY){
                 contArray++;
-                rest_inicial();
+                atributo();
+                etiquetas();
+                if (tokensA.get(contArray) == Token.CLOSEKEY){
+                    contArray++;
+                    atributo();
+                    etiquetas();
+                }else {
+                    System.out.println("Se esperaba un '>'");
+                    System.exit(0);
+                }
             }else {
                 System.out.println("Se esperaba un ':'");
+                System.exit(0);
             }
         }
         //VACIO
@@ -110,15 +177,19 @@ public class SyntaticAnalisis {
                             contArray++;
                         }else {
                             System.out.println("Se esperaba un ')' ");
+                            System.exit(0);
                         }
                     }else {
                         System.out.println("Se esperaba un ' ");
+                        System.exit(0);
                     }
                 }else {
                     System.out.println("Se esperaba un ' ");
+                    System.exit(0);
                 }
             }else {
                 System.out.println("Se esperaba un '='");
+                System.exit(0);
             }
         }
         //VACIO
@@ -148,6 +219,7 @@ public class SyntaticAnalisis {
             contArray++;
         }else{
             System.out.println("Se esperaba una Propiedad");
+            System.exit(0);
         }
     }
 
@@ -157,11 +229,13 @@ public class SyntaticAnalisis {
             contArray++;
         }else if (tokensA.get(contArray) == Token.VALOR_FLOTANTE){
             contArray++;
-        }else if (tokensA.get(contArray)== Token.TEXTO){
+        }else if (tokensA.get(contArray)== Token.TEXTO) {
             contArray++;
-        }else{
-            System.out.println("Se esperaba un Atributo (valor) ");
         }
+//        }else{
+//            System.out.println("Se esperaba un Atributo (valor) ");
+//            System.exit(0);
+//        }
     }
 
     // rest_prop -> ; <prop> = ' <atributo> ' <rest_prop>  | E
@@ -179,33 +253,21 @@ public class SyntaticAnalisis {
                         rest_prop();
                     }else {
                         System.out.println("Se esperaba un ' ");
+                        System.exit(0);
                     }
                 }else {
                     System.out.println("Se esperaba un ' ");
+                    System.exit(0);
                 }
             }else {
                 System.out.println("Se esperaba un '=' ");
+                System.exit(0);
             }
         }
         //VACIO
     }
 
-    // <rest_inicial> ->  texto <inicial> | int <inicial> | flotante <incial> | inicial | E
-    private void rest_inicial() {
-        inicial();
-        if (tokensA.get(contArray)== Token.TEXTO){
-            contArray++;
-            inicial();
-        }else if (tokensA.get(contArray)== Token.VALOR_ENTERO){
-            contArray++;
-            inicial();
-        }else if (tokensA.get(contArray)== Token.VALOR_FLOTANTE){
-            contArray++;
-            inicial();
-        }
-        //VACIO
 
-    }
 
 
 

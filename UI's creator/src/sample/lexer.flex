@@ -41,4 +41,5 @@ white=[ ,\n,\t,\b,\r,\a]
 [+-]?{D}+[.]{D}+ {lexeme=yytext(); return VALOR_FLOTANTE;}
 ({L}|{A}|_)({L}|{D}|{A}|_)* {lexeme=yytext(); return TEXTO;}
 ":" {return OPENKEY;}
+">" {return CLOSEKEY;}
 . {return ERROR;}

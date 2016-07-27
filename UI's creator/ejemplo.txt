@@ -1,3 +1,11 @@
-section (width = '500';fill = '54541') : Hola como estas
-	img (file = 'asdasdasd'): asdasdasdasd
-	@img
+app:
+    section (width = '54';height = '35'):
+        txt (font = '24'):
+            hola
+        >
+        hola
+        txt (font = 'comicsan'):
+            hola
+        >
+    >
+>
